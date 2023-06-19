@@ -27,6 +27,11 @@ public class PlaylistController {
         return convert;
     }
 
+    /****** Playlist Update ******/
+    @PutMapping("/{id}")
+    public void updatePlaylist(@PathVariable long id, @RequestBody PlaylistRequest playlistRequest) {
+        playlistService.updatePlaylist(id, playlistRequest);
+    }
 
 //    @PostMapping("{id}/songs")
 //    public ResponseEntity<Playlist> addSongToPlaylist(@PathVariable Long id, @RequestBody Song song) {
