@@ -51,8 +51,16 @@ public class PlaylistController {
         return PlaylistResponse.convertToResponse(playlist);
     }
 
+    /****** Search for Playlist by keyword ******/
     @GetMapping("/search")
     public List<Playlist> searchPlaylistsByKeyword(@RequestParam("keyword") String keyword) {
         return playlistService.searchPlaylistsByKeyword(keyword);
     }
+
+    /****** Delete Songs by id ******/
+    @DeleteMapping("/{playlistId}/songs/{songId}")
+    public void deleteSongFromPlaylist(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") String songId) {
+        playlistService.deleteSongFromPlaylist(playlistId, songId);
+    }
+
 }

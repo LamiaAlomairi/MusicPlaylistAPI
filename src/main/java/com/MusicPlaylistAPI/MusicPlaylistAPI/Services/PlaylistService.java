@@ -61,12 +61,20 @@ public class PlaylistService {
     public List<Playlist> searchPlaylistsByKeyword(String keyword) {
         return playlistRepository.searchPlaylistsByKeyword(keyword);
     }
-//    public Playlist getPlaylistById(Long id) {
-//        Optional<Playlist> playlist = playlistRepository.findById(id);
-//        return playlist.orElse(null);
-//    }
-//
-//    public void updatePlaylist(Long id, Playlist playlist) {
-//        playlistRepository.save(playlist);
+
+    /****** Delete Songs by id ******/
+    public void deleteSongFromPlaylist(Long playlistId, String songId) {
+        Playlist playlist = playlistRepository.getOne(playlistId);
+        if (playlist != null) {
+            List<String> songs = playlist.getSongs();
+            songs.remove(songId);
+            playlistRepository.deleteSongFromPlaylist(playlistId, songs);
+        } else {
+            throw new IllegalArgumentException("No playlist found with ID: " + playlistId);
+        }
+    }
+
+//    public void deleteSongById(Long songId) {
+//        playlistRepository.deleteSongById(songId);
 //    }
 }

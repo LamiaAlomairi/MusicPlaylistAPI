@@ -21,4 +21,7 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
     @Query("SELECT pl FROM Playlist pl JOIN pl.songs song WHERE song LIKE %:keyword% OR pl.name LIKE %:keyword%")
     List<Playlist> searchPlaylistsByKeyword(@Param("keyword") String keyword);
 
+    @Modifying
+    @Query("UPDATE Playlist pl SET pl.songs = :songs WHERE pl.id = :playlistId")
+    void deleteSongFromPlaylist(@Param("playlistId") Long playlistId, @Param("songs") List<String> songs);
 }
