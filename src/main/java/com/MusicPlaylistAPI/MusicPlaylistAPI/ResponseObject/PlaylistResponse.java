@@ -1,6 +1,7 @@
 package com.MusicPlaylistAPI.MusicPlaylistAPI.ResponseObject;
 
 import com.MusicPlaylistAPI.MusicPlaylistAPI.Models.Playlist;
+import com.MusicPlaylistAPI.MusicPlaylistAPI.Models.Song;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -16,11 +17,13 @@ import java.util.List;
 public class PlaylistResponse {
     private Long id;
     private String name;
+    private List<String> songs;
 
     public static PlaylistResponse convertToResponse(Playlist playlist) {
         return PlaylistResponse.builder()
                 .id(playlist.getId())
                 .name(playlist.getName())
+                .songs(playlist.getSongs())
                 .build();
     }
 
