@@ -56,6 +56,11 @@ public class PlaylistService {
             throw new IllegalArgumentException("No playlist found with ID: " + id);
         }
     }
+
+    /****** Search for Playlist by keyword ******/
+    public List<Playlist> searchPlaylistsByKeyword(String keyword) {
+        return playlistRepository.searchPlaylistsByKeyword(keyword);
+    }
 //    public Playlist getPlaylistById(Long id) {
 //        Optional<Playlist> playlist = playlistRepository.findById(id);
 //        return playlist.orElse(null);

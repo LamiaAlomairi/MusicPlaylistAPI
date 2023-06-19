@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
     @Query(value = "SELECT pl FROM Playlist pl WHERE pl.id = :id")
@@ -15,4 +17,8 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
     @Modifying
     @Query(value = "DELETE FROM Playlist pl WHERE pl.id = :id")
     void deletePlaylistById(@Param("id") Long id);
+
+    @Query("SELECT pl FROM Playlist pl JOIN pl.songs song WHERE song LIKE %:keyword% OR pl.name LIKE %:keyword%")
+    List<Playlist> searchPlaylistsByKeyword(@Param("keyword") String keyword);
+
 }

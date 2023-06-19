@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "api/playlists")
@@ -50,13 +51,8 @@ public class PlaylistController {
         return PlaylistResponse.convertToResponse(playlist);
     }
 
-//    @PostMapping("/{id}/songs")
-//    public void addSongsToPlaylist(@PathVariable Long id, @RequestBody List<String> songs) {
-//        Playlist playlist = playlistService.getPlaylistById(id);
-//        if (playlist != null) {
-//            List<String> existingSongs = playlist.getSongs();
-//            existingSongs.addAll(songs);
-//            playlistService.updatePlaylist(id, playlist);
-//        }
-//    }
+    @GetMapping("/search")
+    public List<Playlist> searchPlaylistsByKeyword(@RequestParam("keyword") String keyword) {
+        return playlistService.searchPlaylistsByKeyword(keyword);
+    }
 }
