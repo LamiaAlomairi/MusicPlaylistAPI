@@ -1,7 +1,6 @@
 package com.MusicPlaylistAPI.MusicPlaylistAPI.ResponseObject;
 
 import com.MusicPlaylistAPI.MusicPlaylistAPI.Models.Playlist;
-import com.MusicPlaylistAPI.MusicPlaylistAPI.Models.Song;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
