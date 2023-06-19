@@ -6,8 +6,11 @@ import com.MusicPlaylistAPI.MusicPlaylistAPI.RequestObject.PlaylistRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 
 @Service
+@Transactional
 public class PlaylistService {
     @Autowired
     PlaylistRepository playlistRepository;
@@ -31,5 +34,10 @@ public class PlaylistService {
             playlist.setSongs(playlistRequest.getSongs());
             playlistRepository.save(playlist);
         }
+    }
+
+    /****** Playlist Deletion ******/
+    public void deletePlaylistById(Long id) {
+        playlistRepository.deletePlaylistById(id);
     }
 }

@@ -33,6 +33,13 @@ public class PlaylistController {
         playlistService.updatePlaylist(id, playlistRequest);
     }
 
+    /****** Playlist Deletion ******/
+    @DeleteMapping("/{id}")
+    public String deletePlaylistById(@PathVariable long id){
+        playlistService.deletePlaylistById(id);
+        return "Playlist deleted successfully.";
+    }
+
 //    @PostMapping("{id}/songs")
 //    public ResponseEntity<Playlist> addSongToPlaylist(@PathVariable Long id, @RequestBody Song song) {
 //        playlistService.addSongToPlaylist(id, song);
