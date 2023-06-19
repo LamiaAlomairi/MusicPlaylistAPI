@@ -63,12 +63,13 @@ public class PlaylistService {
     }
 
     /****** Delete Songs by id ******/
-    public void deleteSongFromPlaylist(Long playlistId, String songId) {
+    public void deleteSongFromPlaylist(Long playlistId, List<String> songIds) {
         Playlist playlist = playlistRepository.getOne(playlistId);
         if (playlist != null) {
             List<String> songs = playlist.getSongs();
-            songs.remove(songId);
-            playlistRepository.deleteSongFromPlaylist(playlistId, songs);
+            songs.removeAll(songIds);
+            playlist.setSongs(songs);
+            playlistRepository.save(playlist);
         } else {
             throw new IllegalArgumentException("No playlist found with ID: " + playlistId);
         }

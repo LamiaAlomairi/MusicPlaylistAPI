@@ -7,6 +7,7 @@ import com.MusicPlaylistAPI.MusicPlaylistAPI.Services.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,7 +61,8 @@ public class PlaylistController {
     /****** Delete Songs by id ******/
     @DeleteMapping("/{playlistId}/songs/{songId}")
     public void deleteSongFromPlaylist(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") String songId) {
-        playlistService.deleteSongFromPlaylist(playlistId, songId);
+        List<String> songs = new ArrayList<>();
+        songs.add(songId);
+        playlistService.deleteSongFromPlaylist(playlistId, songs);
     }
-
 }
