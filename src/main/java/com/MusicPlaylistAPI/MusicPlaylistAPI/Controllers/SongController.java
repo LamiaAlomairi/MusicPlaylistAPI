@@ -15,8 +15,8 @@ public class SongController {
     SongService songService;
 
     /*******  Song Addition  ******/
-    @PostMapping
-    public void addSong(@RequestBody SongRequest songRequest) {
-        songService.addSong(songRequest);
-    }
+//    @PostMapping
+//    public void addSong(@RequestBody SongRequest songRequest) {
+//        songService.addSong(songRequest);
+//    }
 }

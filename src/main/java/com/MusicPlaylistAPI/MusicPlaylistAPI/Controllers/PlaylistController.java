@@ -7,6 +7,8 @@ import com.MusicPlaylistAPI.MusicPlaylistAPI.Services.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "api/playlists")
 public class PlaylistController {
@@ -40,9 +42,21 @@ public class PlaylistController {
         return "Playlist deleted successfully.";
     }
 
-//    @PostMapping("{id}/songs")
-//    public ResponseEntity<Playlist> addSongToPlaylist(@PathVariable Long id, @RequestBody Song song) {
-//        playlistService.addSongToPlaylist(id, song);
-//        return new ResponseEntity<>(HttpStatus.OK);
+    /****** Song Addition ******/
+    @PostMapping("/{id}/songs")
+    public PlaylistResponse addSongToPlaylist(@PathVariable Long id, @RequestBody List<String> songs) {
+        playlistService.addSongToPlaylist(id, songs);
+        Playlist playlist = playlistService.getPlaylistById(id);
+        return PlaylistResponse.convertToResponse(playlist);
+    }
+
+//    @PostMapping("/{id}/songs")
+//    public void addSongsToPlaylist(@PathVariable Long id, @RequestBody List<String> songs) {
+//        Playlist playlist = playlistService.getPlaylistById(id);
+//        if (playlist != null) {
+//            List<String> existingSongs = playlist.getSongs();
+//            existingSongs.addAll(songs);
+//            playlistService.updatePlaylist(id, playlist);
+//        }
 //    }
 }
