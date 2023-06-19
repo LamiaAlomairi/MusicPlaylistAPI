@@ -22,4 +22,14 @@ public class PlaylistService {
     public Playlist getPlaylistById(Long id) {
         return playlistRepository.getPlaylistById(id);
     }
+
+    /****** Playlist Update ******/
+    public void updatePlaylist(Long id, PlaylistRequest playlistRequest) {
+        Playlist playlist = playlistRepository.getPlaylistById(id);
+        if (playlist != null) {
+            playlist.setName(playlistRequest.getName());
+            playlist.setSongs(playlistRequest.getSongs());
+            playlistRepository.save(playlist);
+        }
+    }
 }
