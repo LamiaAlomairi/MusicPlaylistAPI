@@ -14,19 +14,17 @@ import java.util.List;
 public class PlaylistRequest {
     private String name;
     private List<Long> songIds;
-//    private List<String> songs;
 
     public static Playlist convert(PlaylistRequest request) {
         Playlist playlist = new Playlist();
 
         playlist.setName(request.getName());
-//        playlist.setSongs(request.getSongs());
         return playlist;
     }
 
     public static List<Playlist> convert(List<PlaylistRequest> requestList) {
         List<Playlist> playlists = new ArrayList<>();
-        if(!requestList.isEmpty()){
+        if (!requestList.isEmpty()) {
             for (PlaylistRequest playlistRequest : requestList) {
                 playlists.add(convert(playlistRequest));
             }

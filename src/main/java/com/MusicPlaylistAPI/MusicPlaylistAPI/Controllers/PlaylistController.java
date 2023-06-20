@@ -20,49 +20,57 @@ public class PlaylistController {
 
     /*******  Playlist Creation  ******/
     @PostMapping
-    public void createPlaylist(@RequestBody PlaylistRequest playlistRequest) {
-        playlistService.createPlaylist(playlistRequest);
+    public PlaylistResponse createPlaylist(@RequestBody PlaylistRequest playlistRequest) {
+        Playlist playlist = playlistService.createPlaylist(playlistRequest);
+        return PlaylistResponse.builder()
+                .id(playlist.getId())
+                .name(playlist.getName())
+                .songIds(playlistService.getSongIdsByPlaylist(playlist))
+                .build();
     }
 
     /****** Playlist Retrieval ******/
-    @GetMapping(value = "/{id}")
+    @GetMapping("/{id}")
     public PlaylistResponse getPlaylistById(@PathVariable Long id) {
         Playlist playlist = playlistService.getPlaylistById(id);
-        PlaylistResponse convert = PlaylistResponse.convertToResponse(playlist);
-        return convert;
+        return PlaylistResponse.builder()
+                .id(playlist.getId())
+                .name(playlist.getName())
+                .songIds(playlistService.getSongIdsByPlaylist(playlist))
+                .build();
     }
 
-    /****** Playlist Update ******/
-    @PutMapping("/{id}")
-    public void updatePlaylist(@PathVariable long id, @RequestBody PlaylistRequest playlistRequest) {
-        playlistService.updatePlaylist(id, playlistRequest);
-    }
-
-    /****** Playlist Deletion ******/
-    @DeleteMapping("/{id}")
-    public String deletePlaylistById(@PathVariable long id){
-        playlistService.deletePlaylistById(id);
-        return "Playlist deleted successfully.";
-    }
-
-    /****** Song Addition ******/
-    @PostMapping("/{id}/songs")
-    public PlaylistResponse addSongToPlaylist(@PathVariable Long id, @RequestBody List<Song> songs) {
-        playlistService.addSongToPlaylist(id, songs);
-        Playlist playlist = playlistService.getPlaylistById(id);
-        return PlaylistResponse.convertToResponse(playlist);
-    }
-
-    /****** Search for Playlist by keyword ******/
-    @GetMapping("/search")
-    public List<Playlist> searchPlaylistsByKeyword(@RequestParam("keyword") String keyword) {
-        return playlistService.searchPlaylistsByKeyword(keyword);
-    }
-
-    /****** Delete Songs by id ******/
-    @DeleteMapping("/{playlistId}/songs/{songId}")
-    public void deleteSongFromPlaylist(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") String songId) {
-        List<String> songIds = Collections.singletonList(songId);
-        playlistService.deleteSongFromPlaylist(playlistId, songIds);
-    }
+//    /****** Playlist Update ******/
+//    @PutMapping("/{id}")
+//    public void updatePlaylist(@PathVariable long id, @RequestBody PlaylistRequest playlistRequest) {
+//        playlistService.updatePlaylist(id, playlistRequest);
+//    }
+//
+//    /****** Playlist Deletion ******/
+//    @DeleteMapping("/{id}")
+//    public String deletePlaylistById(@PathVariable long id){
+//        playlistService.deletePlaylistById(id);
+//        return "Playlist deleted successfully.";
+//    }
+//
+//    /****** Song Addition ******/
+//    @PostMapping("/{id}/songs")
+////    public PlaylistResponse addSongToPlaylist(@PathVariable Long id, @RequestBody List<Song> songs) {
+////        playlistService.addSongToPlaylist(id, songs);
+////        Playlist playlist = playlistService.getPlaylistById(id);
+////        return PlaylistResponse.convertToResponse(playlist);
+////    }
+//
+//    /****** Search for Playlist by keyword ******/
+//    @GetMapping("/search")
+//    public List<Playlist> searchPlaylistsByKeyword(@RequestParam("keyword") String keyword) {
+//        return playlistService.searchPlaylistsByKeyword(keyword);
+//    }
+//
+//    /****** Delete Songs by id ******/
+////    @DeleteMapping("/{playlistId}/songs/{songId}")
+////    public void deleteSongFromPlaylist(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") String songId) {
+////        List<String> songIds = Collections.singletonList(songId);
+////        playlistService.deleteSongFromPlaylist(playlistId, songIds);
+////    }
 }

@@ -5,19 +5,22 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Setter
-@Data
 @Entity
-@Table(name = "songs")
-public class Song {
+@Data
+@Table(name = "playlist_song")
+public class PlaylistSong {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
 
-    @OneToMany(mappedBy = "song", cascade = CascadeType.ALL)
-    private List<PlaylistSong> playlistSongs;
+    @ManyToOne
+    @JoinColumn(name = "playlist_id")
+    private Playlist playlist;
+
+    @ManyToOne
+    @JoinColumn(name = "song_id")
+    private Song song;
 }

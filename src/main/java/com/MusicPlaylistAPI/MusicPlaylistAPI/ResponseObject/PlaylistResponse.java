@@ -22,7 +22,6 @@ public class PlaylistResponse {
         return PlaylistResponse.builder()
                 .id(playlist.getId())
                 .name(playlist.getName())
-//                .songIds(playlist.getSongs())
                 .build();
     }
 
