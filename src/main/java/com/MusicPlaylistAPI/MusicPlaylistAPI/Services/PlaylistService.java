@@ -8,9 +8,11 @@ import com.MusicPlaylistAPI.MusicPlaylistAPI.Repositories.SongRepository;
 import com.MusicPlaylistAPI.MusicPlaylistAPI.RequestObject.PlaylistRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 @Transactional
 public class PlaylistService {
@@ -81,44 +83,9 @@ public class PlaylistService {
     }
 
 
-//    /****** Search for Playlist by keyword ******/
-//    public List<Playlist> searchPlaylistsByKeyword(String keyword) {
-//        return playlistRepository.searchPlaylistsByKeyword(keyword);
-//    }
-//
-
-//    public void deleteSongFromPlaylist(Long playlistId, List<String> songIds) {
-//        Playlist playlist = playlistRepository.getOne(playlistId);
-//        if (playlist != null) {
-//            List<String> songs = playlist.getSongs();
-//            songs.removeAll(songIds);
-//            playlist.setSongs(songs);
-//            playlistRepository.save(playlist);
-//        } else {
-//            throw new IllegalArgumentException("No playlist found with ID: " + playlistId);
-//        }
-//    }
-//    public void deleteSongFromPlaylist(Long playlistId, List<String> songIds) {
-//        Playlist playlist = playlistRepository.getPlaylistById(playlistId);
-//        if (playlist != null) {
-//            List<String> songs = playlist.getSongs();
-//            songs.removeAll(songIds);
-//            playlist.setSongs(songs);
-//            playlistRepository.save(playlist);
-//        } else {
-//            throw new IllegalArgumentException("No playlist found with ID: " + playlistId);
-//        }
-//    }
-//    @Transactional
-//    public void deleteSongFromPlaylist(Long playlistId, List<String> songIds) {
-//        Playlist playlist = playlistRepository.getPlaylistById(playlistId);
-//        if (playlist != null) {
-//            List<Song> songs = playlist.getSongs();
-//            songs.removeAll(songIds);
-//            playlistRepository.save(playlist);
-//        } else {
-//            throw new IllegalArgumentException("No playlist found with ID: " + playlistId);
-//        }
-//    }
-
+    /****** Search for Playlist by keyword ******/
+    public List<Playlist> searchPlaylistsByKeyword(String keyword) {
+        List<Playlist> playlists = playlistRepository.searchPlaylistsByKeyword(keyword);
+        return playlists;
+    }
 }

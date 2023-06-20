@@ -23,7 +23,7 @@ public class SongRequest {
 
     public static List<Song> convert(List<SongRequest> requestList) {
         List<Song> songs = new ArrayList<>();
-        if(!requestList.isEmpty()){
+        if (!requestList.isEmpty()) {
             for (SongRequest songRequest : requestList) {
                 songs.add(convert(songRequest));
             }

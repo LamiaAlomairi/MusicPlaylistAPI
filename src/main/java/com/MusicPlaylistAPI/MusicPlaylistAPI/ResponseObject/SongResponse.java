@@ -25,8 +25,8 @@ public class SongResponse {
     }
 
     public static List<SongResponse> convertToResponseList(List<Song> response) {
-        List<SongResponse> songResponses= new ArrayList<>();
-        if(!response.isEmpty()){
+        List<SongResponse> songResponses = new ArrayList<>();
+        if (!response.isEmpty()) {
             for (Song song : response) {
                 songResponses.add(convertToResponse(song));
             }

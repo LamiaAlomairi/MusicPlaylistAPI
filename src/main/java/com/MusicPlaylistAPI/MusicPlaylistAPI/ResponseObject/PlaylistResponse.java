@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -19,15 +20,20 @@ public class PlaylistResponse {
     private List<Long> songIds;
 
     public static PlaylistResponse convertToResponse(Playlist playlist) {
+        List<Long> songIds = playlist.getPlaylistSongs().stream()
+                .map(ps -> ps.getSong().getId())
+                .collect(Collectors.toList());
+
         return PlaylistResponse.builder()
                 .id(playlist.getId())
                 .name(playlist.getName())
+                .songIds(songIds)
                 .build();
     }
 
     public static List<PlaylistResponse> convertToResponseList(List<Playlist> response) {
-        List<PlaylistResponse> playlistResponse= new ArrayList<>();
-        if(!response.isEmpty()){
+        List<PlaylistResponse> playlistResponse = new ArrayList<>();
+        if (!response.isEmpty()) {
             for (Playlist playlist : response) {
                 playlistResponse.add(convertToResponse(playlist));
             }
