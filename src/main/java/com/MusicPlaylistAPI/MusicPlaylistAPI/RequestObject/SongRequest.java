@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -15,9 +16,13 @@ public class SongRequest {
     private String title;
 
     public static Song convert(SongRequest request) {
+        Date nowDate = new Date();
         Song song = new Song();
 
         song.setTitle(request.getTitle());
+        song.setIsActive(true);
+        song.setCreatedDate(nowDate);
+        song.setUpdatedDate(nowDate);
         return song;
     }
 

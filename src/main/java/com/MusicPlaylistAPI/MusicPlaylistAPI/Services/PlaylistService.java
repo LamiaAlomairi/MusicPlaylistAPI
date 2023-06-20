@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -60,6 +61,7 @@ public class PlaylistService {
             playlistRepository.addSongToPlaylist(id, songId);
         }
         Playlist updatedPlaylist = playlistRepository.getPlaylistById(id);
+        updatedPlaylist.setUpdatedDate(new Date());
         return updatedPlaylist;
     }
 
@@ -74,6 +76,8 @@ public class PlaylistService {
     @Transactional
     public void addSongsToPlaylistById(Long playlistId, List<Long> songIds) {
         playlistRepository.addSongsToPlaylist(playlistId, songIds);
+        Playlist playlist = playlistRepository.getPlaylistById(playlistId);
+        playlist.setUpdatedDate(new Date());
     }
 
     /****** Delete Songs by id ******/

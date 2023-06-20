@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -16,9 +17,13 @@ public class PlaylistRequest {
     private List<Long> songIds;
 
     public static Playlist convert(PlaylistRequest request) {
+        Date nowDate = new Date();
         Playlist playlist = new Playlist();
 
         playlist.setName(request.getName());
+        playlist.setIsActive(true);
+        playlist.setCreatedDate(nowDate);
+        playlist.setUpdatedDate(nowDate);
         return playlist;
     }
 
