@@ -18,24 +18,15 @@ public class PlaylistController {
 
     /*******  Playlist Creation  ******/
     @PostMapping
-    public PlaylistResponse createPlaylist(@RequestBody PlaylistRequest playlistRequest) {
-        Playlist playlist = playlistService.createPlaylist(playlistRequest);
-        return PlaylistResponse.builder()
-                .id(playlist.getId())
-                .name(playlist.getName())
-                .songIds(playlistService.getSongIdsByPlaylist(playlist))
-                .build();
+    public void createPlaylist(@RequestBody PlaylistRequest playlistRequest) {
+        playlistService.createPlaylist(playlistRequest);
     }
 
     /****** Playlist Retrieval ******/
     @GetMapping("/{id}")
     public PlaylistResponse getPlaylistById(@PathVariable Long id) {
         Playlist playlist = playlistService.getPlaylistById(id);
-        return PlaylistResponse.builder()
-                .id(playlist.getId())
-                .name(playlist.getName())
-                .songIds(playlistService.getSongIdsByPlaylist(playlist))
-                .build();
+        return PlaylistResponse.convertToResponse(playlist);
     }
 
     /****** Playlist Update ******/

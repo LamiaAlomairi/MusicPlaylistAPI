@@ -17,17 +17,17 @@ import java.util.stream.Collectors;
 public class PlaylistResponse {
     private Long id;
     private String name;
-    private List<Long> songIds;
+    private List<String> songTitles;
 
     public static PlaylistResponse convertToResponse(Playlist playlist) {
-        List<Long> songIds = playlist.getPlaylistSongs().stream()
-                .map(ps -> ps.getSong().getId())
+        List<String> songTitles = playlist.getPlaylistSongs().stream()
+                .map(ps -> ps.getSong().getTitle())
                 .collect(Collectors.toList());
 
         return PlaylistResponse.builder()
                 .id(playlist.getId())
                 .name(playlist.getName())
-                .songIds(songIds)
+                .songTitles(songTitles)
                 .build();
     }
 
