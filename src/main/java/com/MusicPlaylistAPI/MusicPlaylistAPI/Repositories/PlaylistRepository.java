@@ -13,6 +13,20 @@ import java.util.List;
 public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
     @Query("SELECT p FROM Playlist p JOIN FETCH p.playlistSongs ps JOIN FETCH ps.song WHERE p.id = :id")
     Playlist getPlaylistById(@Param("id") Long id);
+
+    /*** User To update Playlist ***/
+    @Modifying
+    @Query("UPDATE Playlist p SET p.name = :name WHERE p.id = :id")
+    void updatePlaylistName(@Param("id") Long id, @Param("name") String name);
+
+    @Modifying
+    @Query("DELETE FROM PlaylistSong ps WHERE ps.playlist.id = :playlistId")
+    void deletePlaylistSongs(Long playlistId);
+
+    @Modifying
+    @Query("INSERT INTO PlaylistSong (playlist, song) SELECT p, s FROM Playlist p, Song s WHERE p.id = :playlistId AND s.id = :songId")
+    void addSongToPlaylist(@Param("playlistId") Long playlistId, @Param("songId") Long songId);
+
 //    @Modifying
 //    @Query(value = "DELETE FROM Playlist pl WHERE pl.id = :id")
 //    void deletePlaylistById(@Param("id") Long id);

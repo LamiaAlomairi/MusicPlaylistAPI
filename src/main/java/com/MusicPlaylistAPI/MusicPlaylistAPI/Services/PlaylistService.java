@@ -49,7 +49,17 @@ public class PlaylistService {
         return playlistRepository.getPlaylistById(id);
     }
 
-//    /****** Playlist Update ******/
+    /****** Playlist Update ******/
+    @Transactional
+    public Playlist updatePlaylist(Long id, PlaylistRequest playlistRequestDTO) {
+        playlistRepository.updatePlaylistName(id, playlistRequestDTO.getName());
+        playlistRepository.deletePlaylistSongs(id);
+        for (Long songId : playlistRequestDTO.getSongIds()) {
+            playlistRepository.addSongToPlaylist(id, songId);
+        }
+        Playlist updatedPlaylist = playlistRepository.getPlaylistById(id);
+        return updatedPlaylist;
+    }
 //    public void updatePlaylist(Long id, PlaylistRequest playlistRequest) {
 //        Playlist playlist = playlistRepository.getPlaylistById(id);
 //        if (playlist != null) {

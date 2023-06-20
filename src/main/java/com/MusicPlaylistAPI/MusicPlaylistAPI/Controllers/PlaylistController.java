@@ -7,10 +7,6 @@ import com.MusicPlaylistAPI.MusicPlaylistAPI.ResponseObject.PlaylistResponse;
 import com.MusicPlaylistAPI.MusicPlaylistAPI.Services.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "api/playlists")
@@ -40,7 +36,11 @@ public class PlaylistController {
                 .build();
     }
 
-//    /****** Playlist Update ******/
+    /****** Playlist Update ******/
+    @PutMapping("/{id}")
+    public void updatePlaylist(@PathVariable Long id, @RequestBody PlaylistRequest playlistRequest) {
+        playlistService.updatePlaylist(id, playlistRequest);
+    }
 //    @PutMapping("/{id}")
 //    public void updatePlaylist(@PathVariable long id, @RequestBody PlaylistRequest playlistRequest) {
 //        playlistService.updatePlaylist(id, playlistRequest);
