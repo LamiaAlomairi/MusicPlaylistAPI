@@ -67,11 +67,12 @@ public class PlaylistService {
         playlistRepository.deletePlaylistAndSongsById(id);
         playlistRepository.deletePlaylistById(id);
     }
-//    public void deletePlaylistById(Long id) {
-//        playlistRepository.deletePlaylistById(id);
-//    }
-//
-//    /****** Song Addition ******/
+
+    /****** Song Addition ******/
+    @Transactional
+    public void addSongsToPlaylistById(Long playlistId, List<Long> songIds) {
+        playlistRepository.addSongsToPlaylist(playlistId, songIds);
+    }
 ////    public void addSongToPlaylist(Long id, List<Song> songs) {
 ////        Playlist playlist = playlistRepository.getPlaylistById(id);
 ////        if (playlist != null) {

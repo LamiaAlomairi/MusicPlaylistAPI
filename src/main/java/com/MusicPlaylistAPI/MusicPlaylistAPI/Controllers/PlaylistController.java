@@ -8,6 +8,8 @@ import com.MusicPlaylistAPI.MusicPlaylistAPI.Services.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "api/playlists")
 public class PlaylistController {
@@ -47,13 +49,12 @@ public class PlaylistController {
     public void deletePlaylistAndSongs(@PathVariable Long id) {
         playlistService.deletePlaylistAndSongsById(id);
     }
-//    @DeleteMapping("/{id}")
-//    public String deletePlaylistById(@PathVariable long id){
-//        playlistService.deletePlaylistById(id);
-//        return "Playlist deleted successfully.";
-//    }
-//
-//    /****** Song Addition ******/
+
+    /****** Song Addition ******/
+    @PostMapping("/{playlistId}/songs")
+    public void addSongsToPlaylist(@PathVariable Long playlistId, @RequestBody List<Long> songIds) {
+        playlistService.addSongsToPlaylistById(playlistId, songIds);
+    }
 //    @PostMapping("/{id}/songs")
 ////    public PlaylistResponse addSongToPlaylist(@PathVariable Long id, @RequestBody List<Song> songs) {
 ////        playlistService.addSongToPlaylist(id, songs);
