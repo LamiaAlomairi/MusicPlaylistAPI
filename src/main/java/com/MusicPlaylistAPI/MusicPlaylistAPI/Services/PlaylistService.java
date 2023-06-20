@@ -73,23 +73,20 @@ public class PlaylistService {
     public void addSongsToPlaylistById(Long playlistId, List<Long> songIds) {
         playlistRepository.addSongsToPlaylist(playlistId, songIds);
     }
-////    public void addSongToPlaylist(Long id, List<Song> songs) {
-////        Playlist playlist = playlistRepository.getPlaylistById(id);
-////        if (playlist != null) {
-////            List<Song> existingSongs = playlist.getSongs();
-////            existingSongs.addAll(songs);
-////            playlistRepository.save(playlist);
-////        } else {
-////            throw new IllegalArgumentException("No playlist found with ID: " + id);
-////        }
-////    }
-//
+
+    /****** Delete Songs by id ******/
+    @Transactional
+    public void deleteSongFromPlaylist(Long playlistId, Long songId) {
+        playlistRepository.deleteSongFromPlaylist(playlistId, songId);
+    }
+
+
 //    /****** Search for Playlist by keyword ******/
 //    public List<Playlist> searchPlaylistsByKeyword(String keyword) {
 //        return playlistRepository.searchPlaylistsByKeyword(keyword);
 //    }
 //
-//    /****** Delete Songs by id ******/
+
 //    public void deleteSongFromPlaylist(Long playlistId, List<String> songIds) {
 //        Playlist playlist = playlistRepository.getOne(playlistId);
 //        if (playlist != null) {

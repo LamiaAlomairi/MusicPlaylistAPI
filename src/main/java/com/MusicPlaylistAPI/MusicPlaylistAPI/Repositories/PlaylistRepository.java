@@ -38,14 +38,11 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
     @Query("INSERT INTO PlaylistSong (playlist, song) SELECT p, s FROM Playlist p, Song s WHERE p.id = :playlistId AND s.id IN :songIds")
     void addSongsToPlaylist(@Param("playlistId") Long playlistId, @Param("songIds") List<Long> songIds);
 
-//    @Modifying
-//    @Query(value = "DELETE FROM Playlist pl WHERE pl.id = :id")
-//    void deletePlaylistById(@Param("id") Long id);
-//
+    @Modifying
+    @Query("DELETE FROM PlaylistSong ps WHERE ps.playlist.id = :playlistId AND ps.song.id = :songId")
+    void deleteSongFromPlaylist(@Param("playlistId") Long playlistId, @Param("songId") Long songId);
+
 //    @Query("SELECT pl FROM Playlist pl JOIN pl.songs song WHERE song LIKE %:keyword% OR pl.name LIKE %:keyword%")
 //    List<Playlist> searchPlaylistsByKeyword(@Param("keyword") String keyword);
 //
-//    @Modifying
-//    @Query("UPDATE Playlist pl SET pl.songs = :songs WHERE pl.id = :playlistId")
-//    void deleteSongFromPlaylist(@Param("playlistId") Long playlistId, @Param("songs") List<String> songs);
 }

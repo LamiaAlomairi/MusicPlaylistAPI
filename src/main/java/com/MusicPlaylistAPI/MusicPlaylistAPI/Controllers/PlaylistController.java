@@ -55,23 +55,18 @@ public class PlaylistController {
     public void addSongsToPlaylist(@PathVariable Long playlistId, @RequestBody List<Long> songIds) {
         playlistService.addSongsToPlaylistById(playlistId, songIds);
     }
-//    @PostMapping("/{id}/songs")
-////    public PlaylistResponse addSongToPlaylist(@PathVariable Long id, @RequestBody List<Song> songs) {
-////        playlistService.addSongToPlaylist(id, songs);
-////        Playlist playlist = playlistService.getPlaylistById(id);
-////        return PlaylistResponse.convertToResponse(playlist);
-////    }
-//
+
+    /****** Delete Songs by id ******/
+    @DeleteMapping("/{playlistId}/songs/{songId}")
+    public void deleteSongFromPlaylist(@PathVariable Long playlistId, @PathVariable Long songId) {
+        playlistService.deleteSongFromPlaylist(playlistId, songId);
+    }
+
 //    /****** Search for Playlist by keyword ******/
 //    @GetMapping("/search")
 //    public List<Playlist> searchPlaylistsByKeyword(@RequestParam("keyword") String keyword) {
 //        return playlistService.searchPlaylistsByKeyword(keyword);
 //    }
 //
-//    /****** Delete Songs by id ******/
-////    @DeleteMapping("/{playlistId}/songs/{songId}")
-////    public void deleteSongFromPlaylist(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") String songId) {
-////        List<String> songIds = Collections.singletonList(songId);
-////        playlistService.deleteSongFromPlaylist(playlistId, songIds);
-////    }
+
 }
