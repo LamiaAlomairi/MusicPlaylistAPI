@@ -60,16 +60,13 @@ public class PlaylistService {
         Playlist updatedPlaylist = playlistRepository.getPlaylistById(id);
         return updatedPlaylist;
     }
-//    public void updatePlaylist(Long id, PlaylistRequest playlistRequest) {
-//        Playlist playlist = playlistRepository.getPlaylistById(id);
-//        if (playlist != null) {
-//            playlist.setName(playlistRequest.getName());
-////            playlist.setSongs(playlistRequest.getSongs());
-//            playlistRepository.save(playlist);
-//        }
-//    }
-//
-//    /****** Playlist Deletion ******/
+
+    /****** Playlist Deletion ******/
+    @Transactional
+    public void deletePlaylistAndSongsById(Long id) {
+        playlistRepository.deletePlaylistAndSongsById(id);
+        playlistRepository.deletePlaylistById(id);
+    }
 //    public void deletePlaylistById(Long id) {
 //        playlistRepository.deletePlaylistById(id);
 //    }

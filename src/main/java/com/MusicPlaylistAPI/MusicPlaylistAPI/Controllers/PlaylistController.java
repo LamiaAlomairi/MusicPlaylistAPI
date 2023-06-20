@@ -41,12 +41,12 @@ public class PlaylistController {
     public void updatePlaylist(@PathVariable Long id, @RequestBody PlaylistRequest playlistRequest) {
         playlistService.updatePlaylist(id, playlistRequest);
     }
-//    @PutMapping("/{id}")
-//    public void updatePlaylist(@PathVariable long id, @RequestBody PlaylistRequest playlistRequest) {
-//        playlistService.updatePlaylist(id, playlistRequest);
-//    }
-//
-//    /****** Playlist Deletion ******/
+
+    /****** Playlist Deletion ******/
+    @DeleteMapping("/{id}")
+    public void deletePlaylistAndSongs(@PathVariable Long id) {
+        playlistService.deletePlaylistAndSongsById(id);
+    }
 //    @DeleteMapping("/{id}")
 //    public String deletePlaylistById(@PathVariable long id){
 //        playlistService.deletePlaylistById(id);
