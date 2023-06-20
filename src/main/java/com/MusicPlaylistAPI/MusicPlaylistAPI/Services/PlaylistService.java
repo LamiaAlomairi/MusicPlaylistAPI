@@ -1,29 +1,33 @@
 package com.MusicPlaylistAPI.MusicPlaylistAPI.Services;
 
 import com.MusicPlaylistAPI.MusicPlaylistAPI.Models.Playlist;
+import com.MusicPlaylistAPI.MusicPlaylistAPI.Models.Song;
 import com.MusicPlaylistAPI.MusicPlaylistAPI.Repositories.PlaylistRepository;
+import com.MusicPlaylistAPI.MusicPlaylistAPI.Repositories.SongRepository;
 import com.MusicPlaylistAPI.MusicPlaylistAPI.RequestObject.PlaylistRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import javax.transaction.Transactional;
 import java.util.List;
-
-
 @Service
 @Transactional
 public class PlaylistService {
     @Autowired
     PlaylistRepository playlistRepository;
+    @Autowired
+    SongRepository songRepository;
 
     /*******  Playlist Creation  ******/
     public void createPlaylist(PlaylistRequest playlistRequest) {
         Playlist playlist = PlaylistRequest.convert(playlistRequest);
+        List<Song> songs = songRepository.findAllById(playlistRequest.getSongIds());
+        playlist.setSongs(songs);
         playlistRepository.save(playlist);
     }
+//    public void createPlaylist(PlaylistRequest playlistRequest) {
+//        Playlist playlist = PlaylistRequest.convert(playlistRequest);
+//        playlistRepository.save(playlist);
+//    }
 
     /****** Playlist Retrieval ******/
     public Playlist getPlaylistById(Long id) {
@@ -35,7 +39,7 @@ public class PlaylistService {
         Playlist playlist = playlistRepository.getPlaylistById(id);
         if (playlist != null) {
             playlist.setName(playlistRequest.getName());
-            playlist.setSongs(playlistRequest.getSongs());
+//            playlist.setSongs(playlistRequest.getSongs());
             playlistRepository.save(playlist);
         }
     }
@@ -46,10 +50,10 @@ public class PlaylistService {
     }
 
     /****** Song Addition ******/
-    public void addSongToPlaylist(Long id, List<String> songs) {
+    public void addSongToPlaylist(Long id, List<Song> songs) {
         Playlist playlist = playlistRepository.getPlaylistById(id);
         if (playlist != null) {
-            List<String> existingSongs = playlist.getSongs();
+            List<Song> existingSongs = playlist.getSongs();
             existingSongs.addAll(songs);
             playlistRepository.save(playlist);
         } else {
@@ -63,19 +67,38 @@ public class PlaylistService {
     }
 
     /****** Delete Songs by id ******/
+//    public void deleteSongFromPlaylist(Long playlistId, List<String> songIds) {
+//        Playlist playlist = playlistRepository.getOne(playlistId);
+//        if (playlist != null) {
+//            List<String> songs = playlist.getSongs();
+//            songs.removeAll(songIds);
+//            playlist.setSongs(songs);
+//            playlistRepository.save(playlist);
+//        } else {
+//            throw new IllegalArgumentException("No playlist found with ID: " + playlistId);
+//        }
+//    }
+//    public void deleteSongFromPlaylist(Long playlistId, List<String> songIds) {
+//        Playlist playlist = playlistRepository.getPlaylistById(playlistId);
+//        if (playlist != null) {
+//            List<String> songs = playlist.getSongs();
+//            songs.removeAll(songIds);
+//            playlist.setSongs(songs);
+//            playlistRepository.save(playlist);
+//        } else {
+//            throw new IllegalArgumentException("No playlist found with ID: " + playlistId);
+//        }
+//    }
+    @Transactional
     public void deleteSongFromPlaylist(Long playlistId, List<String> songIds) {
-        Playlist playlist = playlistRepository.getOne(playlistId);
+        Playlist playlist = playlistRepository.getPlaylistById(playlistId);
         if (playlist != null) {
-            List<String> songs = playlist.getSongs();
+            List<Song> songs = playlist.getSongs();
             songs.removeAll(songIds);
-            playlist.setSongs(songs);
             playlistRepository.save(playlist);
         } else {
             throw new IllegalArgumentException("No playlist found with ID: " + playlistId);
         }
     }
 
-//    public void deleteSongById(Long songId) {
-//        playlistRepository.deleteSongById(songId);
-//    }
 }

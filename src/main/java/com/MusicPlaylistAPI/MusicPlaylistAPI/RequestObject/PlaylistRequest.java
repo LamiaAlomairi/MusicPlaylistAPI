@@ -13,13 +13,14 @@ import java.util.List;
 @Data
 public class PlaylistRequest {
     private String name;
-    private List<String> songs;
+    private List<Long> songIds;
+//    private List<String> songs;
 
     public static Playlist convert(PlaylistRequest request) {
         Playlist playlist = new Playlist();
 
         playlist.setName(request.getName());
-        playlist.setSongs(request.getSongs());
+//        playlist.setSongs(request.getSongs());
         return playlist;
     }
 

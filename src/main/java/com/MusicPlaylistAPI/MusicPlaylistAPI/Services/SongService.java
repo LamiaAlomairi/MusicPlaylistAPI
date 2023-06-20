@@ -6,6 +6,8 @@ import com.MusicPlaylistAPI.MusicPlaylistAPI.RequestObject.SongRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SongService {
     @Autowired
@@ -15,5 +17,10 @@ public class SongService {
     public void addSong(SongRequest songRequest) {
         Song song = SongRequest.convert(songRequest);
         songRepository.save(song);
+    }
+
+    /*******  Get All Song  ******/
+    public List<Song> getAllSongs() {
+        return songRepository.getAllSongs();
     }
 }

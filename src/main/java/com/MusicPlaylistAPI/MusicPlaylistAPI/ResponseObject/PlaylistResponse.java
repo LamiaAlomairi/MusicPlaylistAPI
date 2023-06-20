@@ -16,13 +16,13 @@ import java.util.List;
 public class PlaylistResponse {
     private Long id;
     private String name;
-    private List<String> songs;
+    private List<Long> songIds;
 
     public static PlaylistResponse convertToResponse(Playlist playlist) {
         return PlaylistResponse.builder()
                 .id(playlist.getId())
                 .name(playlist.getName())
-                .songs(playlist.getSongs())
+//                .songIds(playlist.getSongs())
                 .build();
     }
 

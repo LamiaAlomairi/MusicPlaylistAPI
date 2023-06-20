@@ -1,12 +1,13 @@
 package com.MusicPlaylistAPI.MusicPlaylistAPI.Controllers;
 
 import com.MusicPlaylistAPI.MusicPlaylistAPI.Models.Playlist;
+import com.MusicPlaylistAPI.MusicPlaylistAPI.Models.Song;
 import com.MusicPlaylistAPI.MusicPlaylistAPI.RequestObject.PlaylistRequest;
 import com.MusicPlaylistAPI.MusicPlaylistAPI.ResponseObject.PlaylistResponse;
 import com.MusicPlaylistAPI.MusicPlaylistAPI.Services.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +47,7 @@ public class PlaylistController {
 
     /****** Song Addition ******/
     @PostMapping("/{id}/songs")
-    public PlaylistResponse addSongToPlaylist(@PathVariable Long id, @RequestBody List<String> songs) {
+    public PlaylistResponse addSongToPlaylist(@PathVariable Long id, @RequestBody List<Song> songs) {
         playlistService.addSongToPlaylist(id, songs);
         Playlist playlist = playlistService.getPlaylistById(id);
         return PlaylistResponse.convertToResponse(playlist);
@@ -61,8 +62,7 @@ public class PlaylistController {
     /****** Delete Songs by id ******/
     @DeleteMapping("/{playlistId}/songs/{songId}")
     public void deleteSongFromPlaylist(@PathVariable("playlistId") Long playlistId, @PathVariable("songId") String songId) {
-        List<String> songs = new ArrayList<>();
-        songs.add(songId);
-        playlistService.deleteSongFromPlaylist(playlistId, songs);
+        List<String> songIds = Collections.singletonList(songId);
+        playlistService.deleteSongFromPlaylist(playlistId, songIds);
     }
 }
