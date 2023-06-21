@@ -19,38 +19,69 @@ public class PlaylistController {
     /*******  Playlist Creation  ******/
     @PostMapping
     public void createPlaylist(@RequestBody PlaylistRequest playlistRequest) {
-        playlistService.createPlaylist(playlistRequest);
+        try {
+            playlistService.createPlaylist(playlistRequest);
+        } catch (Exception e) {
+            System.err.println("Cannot create playlist: " + e.getMessage());
+        }
     }
 
     /****** Playlist Retrieval ******/
     @GetMapping("/{id}")
     public PlaylistResponse getPlaylistById(@PathVariable Long id) {
-        Playlist playlist = playlistService.getPlaylistById(id);
-        return PlaylistResponse.convertToResponse(playlist);
+        try {
+            Playlist playlist = playlistService.getPlaylistById(id);
+            if (playlist == null) {
+                // Handle the case when playlist is not found
+                System.err.println("playlist is not found ");
+                return null;
+            }
+            return PlaylistResponse.convertToResponse(playlist);
+        } catch (Exception e) {
+            System.err.println("Internal Server Error: " + e.getMessage());
+            return null; // or return an appropriate error response
+        }
     }
+
 
     /****** Playlist Update ******/
     @PutMapping("/{id}")
     public void updatePlaylist(@PathVariable Long id, @RequestBody PlaylistRequest playlistRequest) {
-        playlistService.updatePlaylist(id, playlistRequest);
+        try {
+            playlistService.updatePlaylist(id, playlistRequest);
+        } catch (Exception e) {
+            System.err.println("Cannot update playlist: " + e.getMessage());
+        }
     }
 
     /****** Playlist Deletion ******/
     @DeleteMapping("/{id}")
     public void deletePlaylistAndSongs(@PathVariable Long id) {
-        playlistService.deletePlaylistAndSongsById(id);
+        try {
+            playlistService.deletePlaylistAndSongsById(id);
+        } catch (Exception e) {
+            System.err.println("Cannot delete playlist: " + e.getMessage());
+        }
     }
 
     /****** Song Addition ******/
     @PostMapping("/{playlistId}/songs")
     public void addSongsToPlaylist(@PathVariable Long playlistId, @RequestBody List<Long> songIds) {
-        playlistService.addSongsToPlaylistById(playlistId, songIds);
+        try {
+            playlistService.addSongsToPlaylistById(playlistId, songIds);
+        } catch (Exception e) {
+            System.err.println("Cannot added songs to playlist: " + e.getMessage());
+        }
     }
 
     /****** Delete Songs by id ******/
     @DeleteMapping("/{playlistId}/songs/{songId}")
     public void deleteSongFromPlaylist(@PathVariable Long playlistId, @PathVariable Long songId) {
-        playlistService.deleteSongFromPlaylist(playlistId, songId);
+        try {
+            playlistService.deleteSongFromPlaylist(playlistId, songId);
+        } catch (Exception e) {
+            System.err.println("Cannot delete songs from playlist: " + e.getMessage());
+        }
     }
 
     /****** Search for Playlist by keyword ******/
@@ -58,8 +89,13 @@ public class PlaylistController {
     public List<PlaylistResponse> searchPlaylistsByKeyword(@RequestParam String keyword) {
         List<Playlist> playlists = playlistService.searchPlaylistsByKeyword(keyword);
         List<PlaylistResponse> playlistResponses = new ArrayList<>();
-        for (Playlist playlist : playlists) {
-            playlistResponses.add(PlaylistResponse.convertToResponse(playlist));
+        try {
+            for (Playlist playlist : playlists) {
+                playlistResponses.add(PlaylistResponse.convertToResponse(playlist));
+            }
+
+        } catch (Exception e) {
+            System.err.println("Cannot search about playlist: " + e.getMessage());
         }
         return playlistResponses;
     }

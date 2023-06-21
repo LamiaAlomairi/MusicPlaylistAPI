@@ -24,7 +24,12 @@ public class PlaylistResponse {
         for (PlaylistSong playlistSong : playlist.getPlaylistSongs()) {
             songTitles.add(playlistSong.getSong().getTitle());
         }
-        return new PlaylistResponse(playlist.getId(), playlist.getName(), songTitles);
+
+        return PlaylistResponse.builder()
+                .id(playlist.getId())
+                .name(playlist.getName())
+                .songs(songTitles)
+                .build();
     }
 
     public static List<PlaylistResponse> convertToResponseList(List<Playlist> response) {
