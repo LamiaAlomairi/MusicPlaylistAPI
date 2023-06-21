@@ -23,4 +23,11 @@ public class PlaylistSong {
     @ManyToOne
     @JoinColumn(name = "song_id")
     private Song song;
+
+    public PlaylistSong() {
+    }
+    public PlaylistSong(Playlist playlist, Song song) {
+        this.playlist = playlist;
+        this.song = song;
+    }
 }

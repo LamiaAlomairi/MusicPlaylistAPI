@@ -16,16 +16,16 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
     Playlist getPlaylistById(@Param("id") Long id);
 
 
-    //********* User To update Playlist *********
-    @Modifying
+    //********* Update Playlist *********
+    @Modifying //update name of playlist
     @Query("UPDATE Playlist p SET p.name = :name WHERE p.id = :id")
     void updatePlaylistName(@Param("id") Long id, @Param("name") String name);
 
-    @Modifying
+    @Modifying //delete the songs to updated
     @Query("DELETE FROM PlaylistSong ps WHERE ps.playlist.id = :playlistId")
     void deletePlaylistSongs(Long playlistId);
 
-    @Modifying
+    @Modifying //update by insert the new songs inside playlist
     @Query("INSERT INTO PlaylistSong (playlist, song) SELECT p, s FROM Playlist p, Song s WHERE p.id = :playlistId AND s.id = :songId")
     void addSongToPlaylist(@Param("playlistId") Long playlistId, @Param("songId") Long songId);
 

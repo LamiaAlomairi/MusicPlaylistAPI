@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -55,13 +56,25 @@ public class PlaylistService {
     /****** Playlist Update ******/
     @Transactional
     public Playlist updatePlaylist(Long id, PlaylistRequest playlistRequestDTO) {
-        playlistRepository.updatePlaylistName(id, playlistRequestDTO.getName());
-        playlistRepository.deletePlaylistSongs(id);
-        for (Long songId : playlistRequestDTO.getSongIds()) {
-            playlistRepository.addSongToPlaylist(id, songId);
+        Playlist existingPlaylist = playlistRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Playlist not found with id: " + id));
+
+        existingPlaylist.setName(playlistRequestDTO.getName());
+        List<Long> updatedSongIds = playlistRequestDTO.getSongIds();
+        if (updatedSongIds != null) {
+            // Remove all existing songs from the playlist
+            playlistRepository.deletePlaylistSongs(id);
+            // Add new songs to the playlist
+            List<PlaylistSong> newSongs = updatedSongIds.stream()
+                    .map(songId -> {
+                        Song song = songRepository.findById(songId)
+                                .orElseThrow(() -> new IllegalArgumentException("Song not found with id: " + songId));
+                        return new PlaylistSong(existingPlaylist, song);
+                    })
+                    .collect(Collectors.toList());
+            existingPlaylist.setPlaylistSongs(newSongs);
         }
-        Playlist updatedPlaylist = playlistRepository.getPlaylistById(id);
-        updatedPlaylist.setUpdatedDate(new Date());
+        Playlist updatedPlaylist = playlistRepository.save(existingPlaylist);
         return updatedPlaylist;
     }
 

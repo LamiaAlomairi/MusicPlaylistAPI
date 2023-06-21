@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class PlaylistResponse {
     private Long id;
     private String name;
-    private List<String> songTitles;
+    private List<String> songs;
 
     public static PlaylistResponse convertToResponse(Playlist playlist) {
         List<String> songTitles = playlist.getPlaylistSongs().stream()
@@ -27,7 +27,7 @@ public class PlaylistResponse {
         return PlaylistResponse.builder()
                 .id(playlist.getId())
                 .name(playlist.getName())
-                .songTitles(songTitles)
+                .songs(songTitles)
                 .build();
     }
 
