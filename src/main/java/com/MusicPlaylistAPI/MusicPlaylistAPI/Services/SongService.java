@@ -15,12 +15,21 @@ public class SongService {
 
     /*******  Song Addition  ******/
     public void addSong(SongRequest songRequest) {
-        Song song = SongRequest.convert(songRequest);
-        songRepository.save(song);
+        try {
+            Song song = SongRequest.convert(songRequest);
+            songRepository.save(song);
+        } catch (Exception e) {
+            System.out.println("Cannot add song " + e.getMessage());
+        }
     }
 
     /*******  Get All Song  ******/
     public List<Song> getAllSongs() {
-        return songRepository.getAllSongs();
+        try {
+            return songRepository.getAllSongs();
+        } catch (Exception e) {
+            System.out.println("Cannot get all songs " + e.getMessage());
+            return null;
+        }
     }
 }
