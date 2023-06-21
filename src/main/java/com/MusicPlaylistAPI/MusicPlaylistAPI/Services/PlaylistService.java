@@ -13,7 +13,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,10 +26,12 @@ public class PlaylistService {
     public Playlist createPlaylist(PlaylistRequest playlistRequest) {
         Playlist playlist = new Playlist();
         playlist.setName(playlistRequest.getName());
+
         List<PlaylistSong> playlistSongs = new ArrayList<>();
         for (Long songId : playlistRequest.getSongIds()) {
             Song song = new Song();
             song.setId(songId);
+
             PlaylistSong playlistSong = new PlaylistSong();
             playlistSong.setSong(song);
             playlistSong.setPlaylist(playlist);
@@ -40,14 +41,6 @@ public class PlaylistService {
         return playlistRepository.save(playlist);
     }
 
-    public List<Long> getSongIdsByPlaylist(Playlist playlist) {
-        List<Long> songIds = new ArrayList<>();
-        for (PlaylistSong playlistSong : playlist.getPlaylistSongs()) {
-            songIds.add(playlistSong.getSong().getId());
-        }
-        return songIds;
-    }
-
     /****** Playlist Retrieval ******/
     public Playlist getPlaylistById(Long id) {
         return playlistRepository.getPlaylistById(id);
@@ -55,26 +48,23 @@ public class PlaylistService {
 
     /****** Playlist Update ******/
     @Transactional
-    public Playlist updatePlaylist(Long id, PlaylistRequest playlistRequestDTO) {
-        Playlist existingPlaylist = playlistRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Playlist not found with id: " + id));
+    public Playlist updatePlaylist(Long id, PlaylistRequest playlistRequest) {
+        Playlist playlist = playlistRepository.getPlaylistById(id);
+        playlist.setName(playlistRequest.getName());
 
-        existingPlaylist.setName(playlistRequestDTO.getName());
-        List<Long> updatedSongIds = playlistRequestDTO.getSongIds();
+        List<Long> updatedSongIds = playlistRequest.getSongIds();
         if (updatedSongIds != null) {
             // Remove all existing songs from the playlist
             playlistRepository.deletePlaylistSongs(id);
             // Add new songs to the playlist
-            List<PlaylistSong> newSongs = updatedSongIds.stream()
-                    .map(songId -> {
-                        Song song = songRepository.findById(songId)
-                                .orElseThrow(() -> new IllegalArgumentException("Song not found with id: " + songId));
-                        return new PlaylistSong(existingPlaylist, song);
-                    })
-                    .collect(Collectors.toList());
-            existingPlaylist.setPlaylistSongs(newSongs);
+            List<PlaylistSong> newSongs = new ArrayList<>();
+            for (Long songId : updatedSongIds) {
+                Song song = songRepository.getSongById(songId);
+                newSongs.add(new PlaylistSong(playlist, song));
+            }
+            playlist.setPlaylistSongs(newSongs);
         }
-        Playlist updatedPlaylist = playlistRepository.save(existingPlaylist);
+        Playlist updatedPlaylist = playlistRepository.save(playlist);
         return updatedPlaylist;
     }
 

@@ -7,8 +7,8 @@ import com.MusicPlaylistAPI.MusicPlaylistAPI.Services.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "api/playlists")
@@ -57,8 +57,10 @@ public class PlaylistController {
     @GetMapping("/search")
     public List<PlaylistResponse> searchPlaylistsByKeyword(@RequestParam String keyword) {
         List<Playlist> playlists = playlistService.searchPlaylistsByKeyword(keyword);
-        return playlists.stream()
-                .map(PlaylistResponse::convertToResponse)
-                .collect(Collectors.toList());
+        List<PlaylistResponse> playlistResponses = new ArrayList<>();
+        for (Playlist playlist : playlists) {
+            playlistResponses.add(PlaylistResponse.convertToResponse(playlist));
+        }
+        return playlistResponses;
     }
 }

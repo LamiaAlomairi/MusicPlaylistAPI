@@ -1,6 +1,7 @@
 package com.MusicPlaylistAPI.MusicPlaylistAPI.ResponseObject;
 
 import com.MusicPlaylistAPI.MusicPlaylistAPI.Models.Playlist;
+import com.MusicPlaylistAPI.MusicPlaylistAPI.Models.PlaylistSong;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -8,7 +9,6 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -20,15 +20,11 @@ public class PlaylistResponse {
     private List<String> songs;
 
     public static PlaylistResponse convertToResponse(Playlist playlist) {
-        List<String> songTitles = playlist.getPlaylistSongs().stream()
-                .map(ps -> ps.getSong().getTitle())
-                .collect(Collectors.toList());
-
-        return PlaylistResponse.builder()
-                .id(playlist.getId())
-                .name(playlist.getName())
-                .songs(songTitles)
-                .build();
+        List<String> songTitles = new ArrayList<>();
+        for (PlaylistSong playlistSong : playlist.getPlaylistSongs()) {
+            songTitles.add(playlistSong.getSong().getTitle());
+        }
+        return new PlaylistResponse(playlist.getId(), playlist.getName(), songTitles);
     }
 
     public static List<PlaylistResponse> convertToResponseList(List<Playlist> response) {
